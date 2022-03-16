@@ -25,6 +25,7 @@ Phi_hat = Phi_0*(a_dag + a);
 Q_hat = 1i*Q_0*(a_dag - a);
 
 % Test of scaling. Should evaluate to identity
+% [Phi_hat, Q_hat] = i*hbar
 test = (Phi_hat*Q_hat - Q_hat*Phi_hat)/1i/hbar;
 
 
@@ -40,4 +41,16 @@ funcHandle = @(t, y) masterEq(y, a, a_dag, w_r, kappa, n_k, hbar);
 
 y_diag = y_out(:, [1, 5, 9]); % Diagonal elements of rho
 
+figure(1);
 plot(t_out, abs(y_diag))
+xlabel('Time');
+ylabel('Magnitude |\rho|');
+title('Magnitude of Diagonal Elements');
+grid on;
+
+figure(2);
+imagesc(1:numel(rho), t_out, abs(y_out));
+ylabel('Time');
+xlabel('Matrix Index');
+title('Density Matrix Magnitudes');
+colorbar;
