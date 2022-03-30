@@ -12,7 +12,7 @@ function [ H ] = calcHamiltonianDrive(a, a_dag, w_r, kappa, w_d, phi_d, ampHandl
 %   phi_d - drive phase
 %   ampHandle - function handle defining the drive amplitude A(t)
 %   hbar - reduced Planck's constant
-%           hbar ~ 1.0545718 × 10-34 m2 kg / s
+%           hbar ~ 1.0545718 × 10e-34 m2 kg / s
 % 
 % Output:
 %   H - square matrix representing the Hamiltionian

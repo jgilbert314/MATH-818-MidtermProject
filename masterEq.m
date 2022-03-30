@@ -4,14 +4,17 @@ function [ rho_dot ] = masterEq(t, rho_0, InputStruct)
 %   oscillator connected to a transmission line.
 % 
 % Input:
+%   t - time, dummy input for ode45
 %   rho_0 - column vector representation of density matrix. Constructed 
 %           from square matrix via:
 %               rho_0 = reshape(rho, numel(rho), 1);
-%   a, a_dag - creation and ahnihilation operators (square matrices)
-%               a_dag = ctranspose(a);
-%   kappa - damping coefficient
-%   n_k - Constant determined by Bose-Einstein distribution
-%               From paper (p.6): n_k ~ 1.8
+%   InputStruct - structure containing the following fields
+%       a, a_dag - creation and ahnihilation operators (square matrices)
+%                  a_dag = ctranspose(a);
+%       kappa - damping coefficient
+%       n_k - Constant determined by Bose-Einstein distribution
+%                   From paper (p.6): n_k ~ 1.8
+%       hamilHandle - a function handle defining a Hamiltonian: H(t)
 % 
 % Output:
 %   rho_dot - time derivative of density matrix (column vector)
@@ -22,8 +25,8 @@ function [ rho_dot ] = masterEq(t, rho_0, InputStruct)
 % Last Updated: March 16, 2022
 
 % TODO:
-%   Rewrite to use InputStruct
-%   Allow variable Hamiltonian
+%   ^ Rewrite to use InputStruct
+%   ^ Allow variable Hamiltonian
 
 %% Initialization
 
