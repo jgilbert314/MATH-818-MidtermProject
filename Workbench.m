@@ -3,7 +3,7 @@ clear;
 close all;
 DefineConstants; % Run initialization script
 
-psi = [0:3]; % State vectors
+psi = [0:5]; % State vectors
 N = length(psi);
 
 a_base = sqrt( 1:length(psi)-1 ); 
@@ -42,7 +42,7 @@ rho = kron(psi', psi); % Density matrix
 
 
 %% Initialize Input Structure
-model_flag = driven_oscillator;
+model_flag = rescoupled_transmon;
 
 w_d = w_r;
 phi_d = pi*1.15;
@@ -77,14 +77,20 @@ elseif ( strcmp(model_flag, single_transmon) )
         @ (t) calcHamiltonianTrans(n_hat, vPhi_hat, E_C, E_J);
 elseif ( strcmp(model_flag, rescoupled_transmon) )
     disp('Running Resonantly Coupled Transmon');
-    [b1_eigvec, ~] = eigs(b1);
+    % Ladder operators for master equation
+    InputStruct.a = b;
+    InputStruct.a_dag = b_dag;
+    % Eigenstates of first transmon
+    [b1_eigvec, ~] = eigs(b1); 
     psi_1 = b1_eigvec(:, 1);
+    % Eigenstates of second transmon
     [b2_eigvec, ~] = eigs(b2);
     psi_2 = b2_eigvec(:, 1);
-    rho = kron(psi_1', psi_2); % Density matrix
+    % Density matrix
+    rho = kron(psi_1', psi_2);
     
     InputStruct.hamilHandle = ...
-        @ (t) calcOscCoupledTransmons(b1, b1_dag, b2, b2_dag, g1, g2, E_C1, E_J1, E_C2, E_J2, a, a_dag, w_r, hbar);
+        @ (t) calcOscCoupledTransmons(g1, g2, E_C1, E_J1, E_C2, E_J2, a, a_dag, w_r, Z_r, hbar, e);
 end
 
 
@@ -94,13 +100,14 @@ end
 rho_0 = reshape(rho, numel(rho), 1);
 % funcHandle = @(t, y) masterEq(y, a, a_dag, w_r, kappa, n_k, hbar);
 funcHandle = @(t, y) masterEq(t, y, InputStruct);
-[t_out, y_out] = ode45(funcHandle, [0, 1], rho_0);
+[t_out, y_out] = ode45(funcHandle, [0, 10], rho_0);
 
 
 
 %% Plot Solution
 
-y_diag = y_out(:, :); % Diagonal elements of rho
+diag_inds = 1 + [0:N-1]*(N+1);
+y_diag = y_out(:, diag_inds); % Diagonal elements of rho
 
 figure(1);
 plot(t_out, abs(y_diag))
@@ -130,3 +137,13 @@ end
 
 figure(4);
 plot( t_out, abs(y_eig') );
+
+
+
+%%
+
+test = eig(vPhi_hat);
+test2 = this_rho*test;
+test2 = test*test2';
+
+imagesc( abs(test2) );

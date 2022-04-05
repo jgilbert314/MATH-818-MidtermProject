@@ -1,4 +1,20 @@
 function [ eig_arr ] = sweepHamilEig(param_vec, hamilHandle)
+% Calculates the eigenvalues of a Hamilonian as a function of an arbitrary
+% parameter.
+% 
+% Input:
+%   param_vec - vector of parameter values
+%   hamilHandle - a function handle specifying the Hamiltonian
+% 
+% Output:
+%   eig_arr - an NxM matrix, where N is the number of eigenvalues, and M is
+%             the number of parameters. Sorted in ascending order with N.
+
+% Author: Jason Gilbert
+% Date: March 31, 2022
+% Version: N/A
+% Last Updated: N/A
+
 
 N_p = length(param_vec);
 H_0 = hamilHandle(param_vec(1));

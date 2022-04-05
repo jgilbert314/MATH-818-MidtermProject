@@ -1,0 +1,139 @@
+\documentclass[10pt,a4paper,fleqn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\title{Math 818 \\ Report}
+\author{Jason Gilbert}
+
+
+\usepackage{float}
+\usepackage{siunitx}
+\setlength{\parindent}{0pt}
+
+
+
+% General
+\newcommand{\hamH}{\hat{H}}
+% Oscillator
+\newcommand{\hPhi}{\hat{\Phi}}
+\newcommand{\hQ}{\hat{Q}}
+% Transmon
+\newcommand{\tranOp}{\hat{b}}
+% Master equation
+\newcommand{\bS}{\bar{n}_\kappa}
+\newcommand{\dissOp}{\mathcal{D}}
+\newcommand{\oscLad}{\hat{a}}
+\newcommand{\phiCo}{\Phi_{\text{zpf}}}
+\newcommand{\QCo}{Q_{\text{zpf}}}
+
+
+\begin{document}
+\maketitle
+\newpage
+
+
+\section{Important Equations}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|l|l|}
+		\hline
+		Symbol & Meaning & Value \\
+		\hline
+		\#in & Inline math appearing near equation \# & \\
+		\#der & Equation derived from equation \# & \\
+		$ \hbar $ & Reduced Planck's constant & \SI{1.054571817e-34}{\joule \cdot \second} \\
+		$ e $ & Charge of Electron & \SI{1.602e-19}{\coulomb} \\
+		\hline
+	\end{tabular}
+\caption{Important Notation}
+\label{tab:notation}
+\end{table}
+
+
+\subsection{Oscillator Equations} % p.4
+Starting with the Hamiltonian for the oscillator (an LC circuit)
+\begin{equation}\label{eq:oscHam}\tag{2}
+	H_{LC} = \dfrac{Q^2}{2C} + \dfrac{1}{2}C\omega_r^2\Phi^2 \ ,
+\end{equation}
+the corresponding quantized obserables are
+\begin{equation}\label{eq:oscOps}\tag{4}
+	\hPhi = \phiCo(\oscLad^\dag + \oscLad) \ , \qquad
+	\hQ = i\QCo(\oscLad^\dag - \oscLad) \ ,
+\end{equation}
+with coefficients
+\begin{equation}\label{eq:oscCoeff}\tag{4in}
+	\phiCo = \sqrt{\dfrac{\hbar}{2Z_r}} \ , \qquad
+	\QCo = \sqrt{\dfrac{\hbar}{2Z_r}}
+\end{equation}
+
+In these terms the Hamiltonian is defined
+\begin{equation}\label{eq:oscHamOp}\tag{5}
+	\hamH_s = \hbar\omega_r\left(\oscLad^\dag\oscLad + \dfrac{1}{2}\right)
+\end{equation}
+
+Throughout this project, the following matrix representation of the ladder operators will be used
+\begin{equation}\label{eq:ladMat}\tag{5ex}
+	\oscLad_{nm} = \left\lbrace\begin{matrix}
+		\sqrt{i} \quad \text{when}\ & n=m-1 \\
+		0 \quad & \text{otherwise}
+	\end{matrix}
+	\right.
+\end{equation}
+
+
+\subsection{Transmon} % p.9-10
+The Hamiltonian for the transmon is
+\begin{equation}\label{eq:transHamil}\tag{27}
+	\hamH = \sqrt{8E_C E_J}\tranOp^\dag \tranOp - \dfrac{E_C}{12}(\tranOp^\dag + \tranOp)^4
+\end{equation}
+where the corresponding ladder operators $ \tranOp $ and $ \tranOp^\dag $ can be related to $ \oscLad $ and $ \oscLad^\dag $ via Eq.(24-25) and
+\begin{equation}\label{eq:tranOps}\tag{22in} % p.9
+	\hat{n} = \dfrac{\hQ}{2e} \ , \qquad
+	\hat{\varphi} = \dfrac{2e}{\hbar}\hPhi
+\end{equation}
+to obtain
+\begin{equation}\label{eq:tranLad}\tag{25-26der}
+	\tranOp = \dfrac{1}{2}\left( \dfrac{\hat{\varphi}}{\varphi_0} - \dfrac{\hat{n}}{n_0} \right) \ , \qquad
+	\tranOp^\dag = \dfrac{1}{2}\left( \dfrac{\hat{\varphi}}{\varphi_0} + \dfrac{\hat{n}}{n_0} \right)
+\end{equation}
+where
+\begin{equation}\label{eq:tranCoeff}\tag{25-26der-a}
+	\varphi_0 = \left(\dfrac{2E_C}{E_J}\right)^{1/4} \ , \qquad
+	n_0 = \dfrac{i}{2}\left( \dfrac{E_J}{2E_C} \right)^{1/4}
+\end{equation}
+
+
+
+\subsection{Transmons Coupled Via Resonator}
+The Hamiltonian for a pair of transmons coupled by a resonator is given by
+\begin{equation}\label{eq:resCoupleTrans}\tag{138}
+	\hamH = \hamH_{q1} + \hamH_{q2} + \hbar\omega_r\oscLad^\dag\oscLad + \sum_{i=1}^{2}\hbar g_i(\oscLad^\dag\tranOp_i + \oscLad\tranOp_i^\dag)
+\end{equation}
+
+
+\subsection{Master Equation} % p.19
+The master equation for the harmonic oscillator is given by
+\begin{equation}\label{eq:masterEq}\tag{70}
+	\dot{\rho} = -i[\hamH_s, \rho] + \kappa(\bS + 1)\dissOp[\oscLad]\rho + \kappa\bS\dissOp[\oscLad^\dag]\rho \ ,
+\end{equation}
+where the damping factor $ \kappa $ is defined according to
+\[
+	\kappa = 2\pi\lambda(\omega_r)^2 = Z_{tml}\omega_r^2\dfrac{C_\kappa^2}{C_r},
+\]
+and the dissipation operator is
+\begin{equation}\label{eq:dissOp}\tag{71}
+	\dissOp[A]B = ABA^\dag - \dfrac{1}{2}\lbrace A^\dag A, \ B \rbrace
+\end{equation}
+where $ A $ and $ B $ are operators, and $ \lbrace A, B \rbrace$ is the anti-commutator of $ A $ and $ B $.
+
+The equivalent form for the transmon is given by
+\begin{equation}\label{eq:masterEqTran}\tag{79} % p.20
+	\dot{\rho} = -i[\hamH_q, \rho] + \gamma(\bar{n}_\gamma + 1)\dissOp[\tranOp]\rho + \gamma\bar{n}_\gamma\dissOp[\tranOp^\dag]\rho \ ,
+\end{equation}
+where $ \bar{n}_\gamma $ and $ \gamma $ are constants.
+
+
+	
+\end{document}
