@@ -1,4 +1,4 @@
-function [ H ] = calcHamiltonianDrive(a, a_dag, w_r, kappa, w_d, phi_d, ampHandle, t, hbar)
+function [ H ] = calcDriveHamiltonian(a, a_dag, w_r, kappa, w_d, phi_d, ampHandle, t, hbar)
 % Summary:
 %   Defines the Hamiltonian for a harmonic oscillator with a driving force
 % 
@@ -24,10 +24,10 @@ function [ H ] = calcHamiltonianDrive(a, a_dag, w_r, kappa, w_d, phi_d, ampHandl
 
 H_s = hbar*w_r*(a_dag*a - 1/2);
 
-eps = 1i*sqrt(kappa)*ampHandle(t);
-wave_term = eps*exp( -1i*(w_d*t - phi_d) );
-H_d = hbar*( a*wave_term + a_dag*conj(wave_term) );
+eps = 1i*sqrt(kappa)*ampHandle(t); % Amplitude
+wave_term = eps*exp( -1i*(w_d*t - phi_d) ); % Wave function
+H_d = hbar*( a*wave_term + a_dag*conj(wave_term) ); % Drive Hamiltonian
 
-H = H_s + H_d;
+H = H_s + H_d; % Total Hamiltonian
 
 end

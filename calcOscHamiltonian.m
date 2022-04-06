@@ -1,4 +1,4 @@
-function [ H_s ] = calcHamiltonianOsc(a, a_dag, w_r, hbar)
+function [ H_s ] = calcOscHamiltonian(a, a_dag, w_r, hbar)
 % Summary:
 %   Defines the Hamiltonian for a harmonic oscillator
 %       H_s = hbar*w_r*(a_dag*a - 1/2)

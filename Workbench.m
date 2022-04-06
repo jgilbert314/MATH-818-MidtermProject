@@ -3,33 +3,32 @@ clear;
 close all;
 DefineConstants; % Run initialization script
 
-psi = [0:5]; % State vectors
-N = length(psi);
+%% Model flags
+% Strings specifying different model choices
 
-a_base = sqrt( 1:length(psi)-1 ); 
-a = diag(a_base, 1);
-a_dag = ctranspose(a);
+pure_oscillator = 'Pure Oscillator';
+driven_oscillator = 'Driven Oscillator';
+single_transmon = 'Single Transmon';
+rescoupled_transmon = 'Resonator Coupled Transmon';
+
+%%
+N = 5;
+psi = [0:N]; % State vectors
+
+
+% Calc ladder operators
+[a, a_dag] = calcOscLadderOp(N);
+[b, b_dag] = calcTransLadderOp(a, a_dag, Z_r, E_C, E_J, hbar, e);
 
 
 % Oscillator Basis
-Phi_0 = sqrt(hbar*Z_r/2);
-Q_0 = sqrt(hbar/2/Z_r);
-
-Phi_hat = Phi_0*(a_dag + a);
-Q_hat = 1i*Q_0*(a_dag - a);
+[Phi_hat, Q_hat] = calcOscBasis(a, a_dag, Z_r, hbar);
+[n_hat, vPhi_hat] = calcTransBasis(Phi_hat, Q_hat, hbar, e);
 
 % Test of scaling. Should evaluate to identity
 % [Phi_hat, Q_hat] = i*hbar
-test = (Phi_hat*Q_hat - Q_hat*Phi_hat)/1i/hbar;
-
-
-% Transmon Basis (depends on oscillator basis) 
-n_hat = Q_hat/2/e; % Defined below Eq.(22)
-vPhi_hat = 2*e/hbar*Phi_hat; % Phi_0 defined below Eq.(19)
-
-% Ladder operators
-[b, b_dag] = calcTransmonLadderOp(a, a_dag, Z_r, E_C, E_J, hbar, e);
-
+testOsc = (Phi_hat*Q_hat - Q_hat*Phi_hat)/1i/hbar;
+testtrans = (vPhi_hat*n_hat - n_hat*vPhi_hat)/1i;
 
 
 % Density matrix
@@ -56,8 +55,8 @@ E_C2 = E_C1;
 E_J1 = E_J;
 E_J2 = E_J1;
 
-[b1, b1_dag] = calcTransmonLadderOp(a, a_dag, Z_r, E_C1, E_J1, hbar, e);
-[b2, b2_dag] = calcTransmonLadderOp(a, a_dag, Z_r, E_C2, E_J2, hbar, e);
+[b1, b1_dag] = calcTransLadderOp(a, a_dag, Z_r, E_C1, E_J1, hbar, e);
+[b2, b2_dag] = calcTransLadderOp(a, a_dag, Z_r, E_C2, E_J2, hbar, e);
 
 InputStruct.a = a;
 InputStruct.a_dag = a_dag;
@@ -66,15 +65,15 @@ InputStruct.n_k = n_k;
 if ( strcmp(model_flag, pure_oscillator) )
     disp('Running Pure Oscillator');
     InputStruct.hamilHandle = ...
-        @ (t) calcHamiltonianOsc(a, a_dag, w_r, hbar);
+        @ (t) calcOscHamiltonian(a, a_dag, w_r, hbar);
 elseif ( strcmp(model_flag, driven_oscillator) )
     disp('Running Driven Oscillator');
     InputStruct.hamilHandle = ...
-        @ (t) calcHamiltonianDrive(a, a_dag, w_r, kappa, w_d, phi_d, ampHandle, t, hbar);
+        @ (t) calcDriveHamiltonian(a, a_dag, w_r, kappa, w_d, phi_d, ampHandle, t, hbar);
 elseif ( strcmp(model_flag, single_transmon) )
     disp('Running Single Transmon');
     InputStruct.hamilHandle = ...
-        @ (t) calcHamiltonianTrans(n_hat, vPhi_hat, E_C, E_J);
+        @ (t) calcTransHamiltonian(n_hat, vPhi_hat, E_C, E_J);
 elseif ( strcmp(model_flag, rescoupled_transmon) )
     disp('Running Resonantly Coupled Transmon');
     % Ladder operators for master equation
@@ -90,12 +89,11 @@ elseif ( strcmp(model_flag, rescoupled_transmon) )
     rho = kron(psi_1', psi_2);
     
     InputStruct.hamilHandle = ...
-        @ (t) calcOscCoupledTransmons(g1, g2, E_C1, E_J1, E_C2, E_J2, a, a_dag, w_r, Z_r, hbar, e);
+        @ (t) calcOscCoupledTransHamiltonian(g1, g2, E_C1, E_J1, E_C2, E_J2, a, a_dag, w_r, Z_r, hbar, e);
 end
 
 
 %% Calculate Solution
-
 
 rho_0 = reshape(rho, numel(rho), 1);
 % funcHandle = @(t, y) masterEq(y, a, a_dag, w_r, kappa, n_k, hbar);

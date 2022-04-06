@@ -3,6 +3,7 @@ function [ D_op ] = calcDispOp(alpha, a, a_dag)
 %   D_op = exp(X) 
 %       where X = alpha*a - conj(alpha)*a_dag
 %   Matrix exponentiation calculated via D_op = expm(X)
+%   Defined in Eq.88
 % 
 % Input:
 %   alpha - complex number

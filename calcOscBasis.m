@@ -15,6 +15,10 @@ function [ Phi_hat, Q_hat ] = calcOscBasis(a, a_dag, Z_r, hbar)
 %   Phi_hat - flux operator (square matrix)
 %   Q_hat - charge operator (square matrix)
 
+% Author: Jason Gilbert
+% Date: ??
+% Version: N/A
+% Last Updated: N/A
 
 Phi_0 = sqrt(hbar*Z_r/2);
 Q_0 = sqrt(hbar/2/Z_r);

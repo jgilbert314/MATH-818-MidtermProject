@@ -1,4 +1,4 @@
-function [ H ] = calcHamiltonianTransApprox(b, b_dag, E_C, E_J)
+function [ H ] = calcTransApproxHamiltonian(b, b_dag, E_C, E_J)
 % An approximation of the transmon Hamiltonian, as defined in Eq.(27), p.10
 % 
 % Input:

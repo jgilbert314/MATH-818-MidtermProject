@@ -15,7 +15,7 @@ RefFig30;
 
 % Basis size
 N = 6;
-Z_r = 7;
+Z_r = 8;
 
 figure(2);
 RefFig30;

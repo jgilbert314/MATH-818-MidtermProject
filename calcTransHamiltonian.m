@@ -1,4 +1,4 @@
-function [ H ] = calcHamiltonianTrans(n_hat, vPhi_hat, E_C, E_J)
+function [ H ] = calcTransHamiltonian(n_hat, vPhi_hat, E_C, E_J)
 % Approximate Hamiltonian for transmon, as define in Eq.(24)
 % 
 % Input:

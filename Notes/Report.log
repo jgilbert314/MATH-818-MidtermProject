@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2022.2.26)  5 APR 2022 00:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2022.2.26)  6 APR 2022 14:35
 entering extended mode
 **./Report.tex
 (Report.tex
@@ -277,10 +277,10 @@ Overfull \hbox (8.0778pt too wide) in paragraph at lines 40--50
 
 [2] [3] (Report.aux) ) 
 Here is how much of TeX's memory you used:
- 5414 strings out of 480790
- 111914 string characters out of 2907055
- 337454 words of memory out of 3000000
- 21373 multiletter control sequences out of 15000+200000
+ 5415 strings out of 480790
+ 111948 string characters out of 2907055
+ 337467 words of memory out of 3000000
+ 21374 multiletter control sequences out of 15000+200000
  547651 words of font info for 70 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  36i,11n,46p,260b,929s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -298,9 +298,9 @@ r10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Pr
 ogram Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/
 MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX/fonts/
 type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on Report.pdf (3 pages, 127260 bytes).
+Output written on Report.pdf (3 pages, 128534 bytes).
 PDF statistics:
- 199 PDF objects out of 1000 (max. 8388607)
+ 202 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
