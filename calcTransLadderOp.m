@@ -4,7 +4,7 @@ function [b, b_dag] = calcTransLadderOp(a, a_dag, Z_r, E_C, E_J, hbar, e)
 % 
 % Inputs:
 %   a, a_dag - harmonic ladder operators
-%   Z_r - impedance
+%   Z_r - characteristic impedance of oscillator
 %   E_C, E_J - charging, Josephson energies
 %   hbar, e - physical constants
 % 

@@ -12,8 +12,11 @@ n_k = 0;            % Constant from Bose-Einstein distribution
 kappa = 0;            % Photon decay rate
 
 % Transmon Parameters
-w_p = 2*pi*7e9;       % Plasma frequency sqrt(8*E_C*E_J)/hbar (p.11)
+w_p = 2*pi*7e9;        % Plasma frequency sqrt(8*E_C*E_J)/hbar (p.11)
 beta = 50;             % Ratio E_J/E_C
 E_C = w_p*hbar/sqrt(8*beta); % Josephson energy
 E_J = beta*E_C;              % Charging energy
 
+%% Global variables
+
+file_folder = fullfile('..', 'FinalReport', 'Figures');

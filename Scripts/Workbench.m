@@ -1,4 +1,4 @@
-%% Initialization
+%% Initializaiton
 clear;
 close all;
 DefineConstants; % Run initialization script
@@ -47,7 +47,7 @@ w_d = w_r;
 phi_d = pi*1.15;
 ampHandle = @(t) 10/hbar;
 
-% Coupling terms for transmon-oscillator system
+
 g1 = 0.1*w_r;
 g2 = g1;
 E_C1 = E_C;
@@ -96,6 +96,7 @@ end
 %% Calculate Solution
 
 rho_0 = reshape(rho, numel(rho), 1);
+% funcHandle = @(t, y) masterEq(y, a, a_dag, w_r, kappa, n_k, hbar);
 funcHandle = @(t, y) masterEq(t, y, InputStruct);
 [t_out, y_out] = ode45(funcHandle, [0, 10], rho_0);
 
@@ -103,7 +104,7 @@ funcHandle = @(t, y) masterEq(t, y, InputStruct);
 
 %% Plot Solution
 
-diag_inds = 1 + [0:N]*(N+2);
+diag_inds = 1 + [0:N-1]*(N+1);
 y_diag = y_out(:, diag_inds); % Diagonal elements of rho
 
 figure(1);
@@ -121,13 +122,26 @@ title('Density Matrix Magnitudes');
 colorbar;
 
 
-%% Check trace
+%%
 
-N_t = length(t_out);
-rho_tr = zeros(1, N_t);
-for itrT = 1:N_t
-   this_rho = reshape(y_out(itrT, :), [N+1, N+1]);
-   rho_tr(itrT) = trace( (this_rho)^2 );
+[N_t, N_rho] = size(y_out);
+N_d = round(sqrt(N_rho));
+y_eig = zeros(N_d, N_t);
+
+for itr = 1:N_t
+   this_rho = reshape(y_out(itr, :), [N_d, N_d]);
+   y_eig(:, itr) = sort( eig(this_rho) );
 end
 
-plot(t_out, rho_tr);
+figure(4);
+plot( t_out, abs(y_eig') );
+
+
+
+%%
+
+test = eig(vPhi_hat);
+test2 = this_rho*test;
+test2 = test*test2';
+
+imagesc( abs(test2) );

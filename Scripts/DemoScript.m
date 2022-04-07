@@ -3,11 +3,14 @@ clear;
 close all;
 DefineConstants; % Run initialization script
 
+save_flag = 1;
+filename = fullfile(file_folder, 'RefFig30');
+
 % Basis size
 N = 10;
 Z_r = 20;
 
-figure(1);
+subplot(2, 1, 1);
 RefFig30;
 
 
@@ -17,11 +20,13 @@ RefFig30;
 N = 6;
 Z_r = 8;
 
-figure(2);
+subplot(2, 1, 2);
 RefFig30;
 
 
-
+if (save_flag)
+   print2pdf(gcf, filename); 
+end
 
 
 %% Check Eigenvalues
